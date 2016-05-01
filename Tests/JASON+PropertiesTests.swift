@@ -117,17 +117,19 @@ class JASON_PropertiesTests: XCTestCase {
         XCTAssertNil(json.uInt32)
         XCTAssertNil(json.uInt64)
 
+        let arch32: Bool = sizeof(Int) < sizeof(Int64)
+
         integer = Int.max
         json = JSON(integer)
         XCTAssert(json.int == integer)
         XCTAssertNil(json.int8)
         XCTAssertNil(json.int16)
-        XCTAssert((sizeof(Int) < sizeof(Int64) && json.int32 == Int32(integer)) || json.int32 == nil) // 32-bit arch json.int32 == Int.max, 64-bit arch json.int32 == nil
+        XCTAssert((arch32 && json.int32 == Int32(integer)) || json.int32 == nil) // 64-bit arch Int32(Int.max) overflows
         XCTAssert(json.int64 == Int64(integer))
         XCTAssert(json.uInt == UInt(integer))
         XCTAssertNil(json.uInt8)
         XCTAssertNil(json.uInt16)
-        XCTAssert((sizeof(UInt) < sizeof(UInt64) && json.uInt32 == UInt32(integer)) || json.uInt32 == nil) // 32-bit arch json.uInt32 == UInt32(Int.max), 64-bit arch json.uInt32 == nil
+        XCTAssert((arch32 && json.uInt32 == UInt32(integer)) || json.uInt32 == nil) // 64-bit arch UInt32(Int.max) overflows
         XCTAssert(json.uInt64 == UInt64(integer))
 
         integer = Int.min
@@ -135,7 +137,7 @@ class JASON_PropertiesTests: XCTestCase {
         XCTAssert(json.int == integer)
         XCTAssertNil(json.int8)
         XCTAssertNil(json.int16)
-        XCTAssert((sizeof(Int) < sizeof(Int64) && json.int32 == Int32(integer)) || json.int32 == nil) // 32-bit arch json.int32 == Int.max, 64-bit arch json.int32 == nil
+        XCTAssert((arch32 && json.int32 == Int32(integer)) || json.int32 == nil) // 64-bit arch Int32(Int.min) underflows
         XCTAssert(json.int64 == Int64(integer))
         XCTAssertNil(json.uInt)
         XCTAssertNil(json.uInt8)
