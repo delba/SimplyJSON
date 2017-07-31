@@ -78,4 +78,31 @@ class BenchmarksTests: XCTestCase {
         }
     }
     
+    func makeNSDict(ofSize: Int) -> NSDictionary {
+        let dict = NSMutableDictionary()
+        for i in 0..<ofSize {
+            dict.setValue("foo I am a random string yes indeed I am \(i)", forKey: "foo \(i)")
+        }
+        return dict
+    }
+    
+    func testJASONConvertNSDict_10000() {
+        let dict = makeNSDict(ofSize: 10_000)
+        
+        measure {
+            let json = JASON.JSON(dict)
+            let val = json["foo 2"]
+            assert(val.string!.hasPrefix("foo"))
+        }
+    }
+    
+    func testSwiftyJSONConvertNSDict_10000() {
+        let dict = makeNSDict(ofSize: 10_000)
+        
+        measure {
+            let json = SwiftyJSON.JSON(dict)
+            let val = json["foo 2"]
+            assert(val.string!.hasPrefix("foo"))
+        }
+    }
 }
