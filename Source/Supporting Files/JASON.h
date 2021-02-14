@@ -23,7 +23,9 @@
 //
 
 @import Foundation;
+#if !TARGET_OS_LINUX
 @import CoreGraphics.CGBase;
+#endif
 
 FOUNDATION_EXPORT double JASONVersionNumber;
 FOUNDATION_EXPORT const unsigned char JASONVersionString[];

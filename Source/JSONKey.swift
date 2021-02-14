@@ -23,7 +23,9 @@
 //
 
 import Foundation
+#if !os(Linux)
 import CoreGraphics
+#endif
 
 // MARK: - JSONKey
 
@@ -220,6 +222,7 @@ extension JSON {
         return self[key.type].nsNumberValue
     }
 
+    #if !os(Linux)
     /**
      Returns the value associated with the given key as a CGFloat or nil if not present/convertible.
      
@@ -241,6 +244,7 @@ extension JSON {
     public subscript(key: JSONKey<CGFloat>) -> CGFloat {
         return self[key.type].cgFloatValue
     }
+    #endif
 }
 
 // MARK: - Bool
